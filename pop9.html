@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+</head>
+
+<body>
+
+<button id="get">Get</button>
+<div id="getx">Getx</div>
+<br>
+
+
+<input type="text" id="posttext" value="Igor"><button id="post">Post</button>
+<div id="postx">Post</div>
+<br>
+<script>
+
+
+document.querySelector("#post").addEventListener("click",async function (){
+
+    const name=document.querySelector("#posttext").value;
+
+    const user={
+        name:name,
+    };
+
+const res=await fetch("http://localhost:4000/",{
+    method:'POST',
+    headers:{
+        'Content-Type':'application/json'
+},
+    body:JSON.stringify(user)
+});
+
+const data=await res.json();
+console.log(data);
+
+document.querySelector("#postx").innerHTML=data.name;
+
+});
+</script>
+
+<input type="text" id="puttextid" value="4">
+<br/>
+<input type="text" id="puttextvalue" value="Igor"><button id="put">Put</button>
+<div id="putx">Putx</div>
+<br>
+
+<script>
+document.querySelector("#put").addEventListener("click",async ()=>{
+
+    const id=document.querySelector("#puttextid").value;
+    const name=document.querySelector("#puttextvalue").value;
+
+    const user={
+        id:id,
+        name:name,
+    };
+
+const res=await fetch(`http://localhost:4000/${id}`,{
+    method:'PUT',
+    headers:{
+        'Content-Type':'application/json'
+},
+    body:JSON.stringify(user)
+});
+
+const data=await res.json();
+console.log(data);
+document.querySelector("#putx").innerHTML=data.name;
+
+});
+</script>
+
+<input type="text" id="deletetextid" value="4"><button id="delete">Delete</button>
+<div id="deletex">Deletex</div>
+<br>
+
+<script>
+document.querySelector("#delete").addEventListener("click",async ()=>{
+
+    const id=document.querySelector("#deletetextid").value;
+
+    const user={
+        id:id,
+    };
+
+const res=await fetch(`http://localhost:4000/${id}`,{
+    method:'DELETE',
+    headers:{
+        'Content-Type':'application/json'
+},
+    body:JSON.stringify(user)
+});
+
+const data=await res.json();
+console.log(data);
+document.querySelector("#deletex").innerHTML=data.name;
+
+});
+</script>
+
+
+<p><a href="http://localhost:4000">Reload</a></p>
+
+</body>
+</html>

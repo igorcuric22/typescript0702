@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+
+<body>
+
+
+<script>
+
+// async function load(){
+//     const res=await fetch("http://localhost:3000/");
+//     const ras=await res.json();
+
+//     return ras;
+// }
+
+
+
+async function func(){
+
+    const user={name:'igor'};
+
+const res=await fetch("http://localhost:3000/",{
+    method:'POST',
+    headers:{
+        // 'Content-Type':'application/x-www-form-urlencoded'
+        'Content-Type':'application/json'
+},
+    body:JSON.stringify(user)
+
+});
+
+
+const data=await res.json();
+console.log(data);
+
+
+
+}
+
+func();
+
+
+// load();
+</script>
+<p><a href="http://localhost:3000">Reload</a></p>
+</body>
+</html>

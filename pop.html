@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+</head>
+
+<body>
+
+<ul>
+</ul>
+
+<script>
+
+async function load(){
+    const res=await fetch("http://localhost:5000/api/people");
+    const ras=await res.json();
+
+    return ras;
+}
+
+
+document.addEventListener("DOMContentLoaded",async ()=>
+{
+
+    try{
+        const tt=await load();
+        console.log(tt);
+        tt.forEach(user=>{
+            const markup=`<li>${user.name}</li>`;
+            document.querySelector('ul').insertAdjacentHTML('beforeend',markup);
+        })
+    }catch(e){
+        console.log(e.message);
+    }
+
+});
+
+</script>
+
+<p>
+    <button id="buttonx">Stisni</button>
+</p>
+<p id="from_post"></p>
+<script>
+
+document.getElementById('buttonx').addEventListener("click",func);
+
+async function func(){
+
+    const newUser={
+        id:6,
+        name:"Igor"
+    }
+
+const res=await fetch("http://localhost:5000/login",{
+    method:'POST',
+    headers:{
+        'Content-Type':'application/json'
+},
+    body:JSON.stringify(newUser)
+
+});
+
+
+const data=await res.json();
+console.log(data);
+document.getElementById('from_post').innerHTML="yyy"+data.name;
+
+}
+
+</script>
+<p><a href="http://localhost:5000">Nazad</a></p>
+</body>
+</html>

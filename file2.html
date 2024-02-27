@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <video id="myvideo" width="1000" height="600" controls="controls">
+       
+        Your browser does not support HTML5 video.
+      </video>
+    <script>
+  function permittedGetUserMedia() {
+    return !!(navigator.mediaDevices &&
+        navigator.mediaDevices.getUserMedia);
+}
+
+if (permittedGetUserMedia()) {
+    const video = document.querySelector('video');
+    const mediaSource = new MediaSource();
+    video.src = URL.createObjectURL(mediaSource);
+
+    navigator.mediaDevices.getUserMedia({
+        video: true
+    }).then((stream) => processStream(stream, mediaSource));
+}
+
+function processStream(stream, mediaSource) {
+    const mediaRecorder = new MediaRecorder(stream)
+    const videoBuffer = mediaSource.addSourceBuffer('video/webm;codecs=vp8');
+
+    mediaRecorder.ondataavailable = (data) => {
+        let fileReader = new FileReader();
+        let arrayBuffer;
+
+        fileReader.onloadend = () => {
+            arrayBuffer = fileReader.result;
+            videoBuffer.appendBuffer(arrayBuffer)
+        }
+        fileReader.readAsArrayBuffer(data.data);
+
+
+    }
+    mediaRecorder.start()
+
+    setInterval(() => {
+        mediaRecorder.requestData()
+    }, 1000)
+}
+
+    </script>
+    
+</body>
+</html>
